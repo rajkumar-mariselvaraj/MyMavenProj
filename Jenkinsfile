@@ -4,9 +4,12 @@ node {
   checkout scm
  }
  stage('build image') {
- sh 'echo hello'  
-}
+  app = docker.build("rajkumarm1989/my-project")
+ }
  stage('push  image') {
- sh 'echo hello'
+ docker.withRegistry('https://cloud.docker.com','docker-hub-credentials'){
+  app.push("${env.BUILD_NUMBER}")
+  app.push("latest")
+ }
  }
 }
